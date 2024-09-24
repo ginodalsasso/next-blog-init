@@ -1,0 +1,10 @@
+model Article {
+    id    String @id @default(auto()) @map("_id") @db.ObjectId
+    title String
+    text  String
+    slug  String @unique
+
+    createdAt DateTime     @default(now())
+    comments  Comment[]
+    tags      TagArticle[]
+}
