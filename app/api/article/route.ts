@@ -11,8 +11,10 @@ export async function GET() {
             },
             include: { // Inclure les tags (jointure)
                 tags: {
-                    include: { tag: true }
-            } }
+                    include: { tag: true } 
+                }
+            }
+
         }); 
         return NextResponse.json(articles); // Retourner les articles en json
 
