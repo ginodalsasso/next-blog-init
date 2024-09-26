@@ -1,8 +1,10 @@
-export default function Home() {
+const Hero = () => {
     return (
-        <div>
+        <div className="hero">
             <h1>Welcome to Our Blog</h1>
             <p>Discover amazing things with us!</p>
         </div>
     );
-}
+};
+
+export default Hero;
