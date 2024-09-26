@@ -1,6 +1,6 @@
 import React from "react";
 import { formatDate } from "@/lib/utils";
-import Button from "./Button";
+// import Button from "./Button";
 import Tag from "./Tag";
 
 interface ArticleCardProps {
@@ -23,12 +23,6 @@ const ArticleCard:React.FC<ArticleCardProps> = ({ article }) => {
 
             <div className="flex flex-wrap gap-2 my-2">
                 {article.tags.map((tagArticle) => (
-                    // <span
-                    //     key={tagArticle.tag.id}
-                    //     className="text-xs rounded-full bg-slate-600 px-3 py-1 text-white"
-                    // >
-                    //     {tagArticle.tag.name}
-                    // </span>
                     <Tag key={tagArticle.tag.id} text={tagArticle.tag.name} />
                 ))}
             </div>
@@ -38,7 +32,7 @@ const ArticleCard:React.FC<ArticleCardProps> = ({ article }) => {
                 {article.text}
             </p>
             
-            <Button href="/contact" label="Lire la suite..." />
+            {/* <Button label="Lire la suite..." /> */}
         </div>
     );
 };

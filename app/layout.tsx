@@ -29,7 +29,7 @@ export default function RootLayout({
                 <main className="bg-slate-800 min-h-screen p-6 text-white">
                     {children}
                 </main>
-            </body> lorem
+            </body>
         </html>
     );
 }

@@ -19,14 +19,14 @@ useEffect(() => {
 }, [params.articleId]); // Appeler la fonction fetchArticle au chargement de la page
 
     return <>    
-        <div>
-            <h1>{article?.title}</h1>
-            <p>{article?.text}</p>
-            <div>
+        <div className="border rounded-lg p-6 xl:w-[70%] mx-auto">
+            <h1 className="text-4xl font-semibold text-emerald-500 text-center mb-2">{article?.title}</h1>
+            <div className="flex justify-center mb-6">
                 {article?.tags.map((tagArticle: TagArticleType) => (
                     <Tag key={tagArticle.tag.id} text={tagArticle.tag.name}/>
                 ))}
             </div>
+            <p className="mx-auto text-center w-[90%] p-4 bg-slate-700 rounded-md">{article?.text}</p>
         </div>
     </>;
 }; 
