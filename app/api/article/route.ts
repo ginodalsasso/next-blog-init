@@ -14,7 +14,6 @@ export async function GET() {
                     include: { tag: true } 
                 }
             }
-
         }); 
         return NextResponse.json(articles); // Retourner les articles en json
 
