@@ -18,7 +18,7 @@ useEffect(() => {
 
 }, [params.articleId]); // Appeler la fonction fetchArticle au chargement de la page
 
-    return (
+    return <>    
         <div>
             <h1>{article?.title}</h1>
             <p>{article?.text}</p>
@@ -28,7 +28,7 @@ useEffect(() => {
                 ))}
             </div>
         </div>
-    )
+    </>;
 }; 
 
 export default ArticleDetailPage;
