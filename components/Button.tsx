@@ -4,13 +4,13 @@ import Link from "next/link";
 interface ButtonProps {
     label: string;
     href: string;
+    style: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, href }) => {
+const Button: React.FC<ButtonProps> = ({ label, href, style }) => {
     return (
         <Link
-            className="inline-block px-5 py-2 mt-3 bg-cyan-900 
-        hover:bg-cyan-800 cursor-pointer rounded-lg"
+            className={style}
             href={href}
         >
             {label}
