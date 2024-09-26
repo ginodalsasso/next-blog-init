@@ -1,8 +1,8 @@
 'use client'
 
 import { db } from "@/lib/db";
-import { formatDate } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
+import ArticleCard from "@/components/ArticleCard";
 
 const ArticlePage = () => {
     const [articles, setArticles] = useState([]); // Initialiser la liste des articles
@@ -17,26 +17,17 @@ const ArticlePage = () => {
         fetchArticles(); // Appeler la fonction fetchArticles
     }, []); // Appeler la fonction fetchArticles au chargement de la page
 
-    return <div>
-        <h1 className="mb-4">Blog</h1>
-
-        {/* Liste des articles */}
-        { articles.map((article: any) => (
-            <div key={article.id} className="mb-6">
-                <h2 className="text-2xl font-semibold text-emerald-500">{article.title}</h2>
-
-                <p>{formatDate(article.createdAt)}</p>
-
-                {article.tags.map((tagArticle: any) => (
-                    <span key={tagArticle.tag.id} className="mr-2 text-sm text-gray-500">
-                        {tagArticle.tag.name}
-                    </span>
-                ))}
-
-                <p>{article.text}</p>
-            </div>
-        )) }
-    </div>;
+    return <>
+        <h1 className="text-4xl font-bold mb-6">Blog</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {/* Liste des articles */}
+            { articles.map((article: any) => (
+                <>
+                    <ArticleCard article={article} />
+                </>
+            )) }
+        </div>
+    </>;
 };
 
 export default ArticlePage;
