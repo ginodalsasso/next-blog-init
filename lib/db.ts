@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 // Déclarer une variable globale pour stocker l'instance de PrismaClient
 declare global {
-    var prisma: PrismaClient | undefined;
+    const prisma: PrismaClient | undefined;
 }
 
 // Créer une instance de PrismaClient

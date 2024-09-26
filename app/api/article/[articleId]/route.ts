@@ -1,5 +1,4 @@
 import { db } from "@/lib/db";
-import { longFormatters } from "date-fns";
 import { NextRequest, NextResponse } from "next/server";
 
 // GET /api/article/[articleId]
