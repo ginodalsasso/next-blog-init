@@ -1,8 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 
-// Déclarer une variable globale pour stocker l'instance de PrismaClient
+// Étendre l'interface globale pour inclure la propriété prisma
 declare global {
-    const prisma: PrismaClient | undefined;
+    // eslint-disable-next-line no-var
+    var prisma: PrismaClient | undefined; 
 }
 
 // Créer une instance de PrismaClient
