@@ -4,7 +4,7 @@ import Button from "./Button";
 import Tag from "./Tag";
 
 interface ArticleCardProps {
-    article: any;
+    article: ArticleWithTagsAndComments; // ArticleWithTagsAndComments from types/types.ts
 }
 
 const ArticleCard:React.FC<ArticleCardProps> = ({ article }) => {
@@ -22,14 +22,14 @@ const ArticleCard:React.FC<ArticleCardProps> = ({ article }) => {
             </p>
 
             <div className="flex flex-wrap gap-2 my-2">
-                {article.tags.map((tagArticle: any) => (
+                {article.tags.map((tagArticle) => (
                     // <span
                     //     key={tagArticle.tag.id}
                     //     className="text-xs rounded-full bg-slate-600 px-3 py-1 text-white"
                     // >
                     //     {tagArticle.tag.name}
                     // </span>
-                    <Tag text={tagArticle.tag.name} />
+                    <Tag key={tagArticle.tag.id} text={tagArticle.tag.name} />
                 ))}
             </div>
 
