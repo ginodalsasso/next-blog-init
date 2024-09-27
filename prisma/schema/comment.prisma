@@ -5,6 +5,7 @@ model Comment {
     article Article @relation(fields: [articleId], references: [id])
 
     userId String
+
     createdAt DateTime @default(now())
 
     @@index([articleId])

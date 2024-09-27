@@ -12,7 +12,8 @@ interface CommentType {
     id: string;
     text: string;
     userId: string;
-    createdAt: Date;
+    articleId: string;
+    createdAt?: Date;
 }
 
 interface ArticleWithTagsAndComments {
