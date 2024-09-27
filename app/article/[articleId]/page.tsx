@@ -2,6 +2,8 @@
 
 import Tag from "@/components/Tag";
 import React, { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";  // Importez le hook `useUser`
+
 
 const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     const [article, setArticle] = useState<ArticleWithTagsAndComments | null>(null);
@@ -12,7 +14,8 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
         articleId: params.articleId 
     });
 
-    
+    const { user } = useUser(); // useUser pour récupérer l'utilisateur connecté
+
     // Récupérer les données de l'article
     useEffect(() => {
         const fetchArticle = async () => {
@@ -26,10 +29,10 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
 
 
 
-    // Créez une fonction `create` pour envoyer les données du formulaire
-    async function create(data: CommentType) {
+    // Créez une fonction `createComment` pour envoyer les données du formulaire
+    async function createComment(data: CommentType) {
         try {
-            await fetch('/api/article/create', {
+            await fetch('/api/article/createComment', {
                 body: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json'
@@ -44,16 +47,21 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     // Créez une fonction `handleSubmit` pour gérer la soumission du formulaire
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const userId = "user_id";
+        // const userId = "user_id";
+        // Vérifie si l'utilisateur est connecté
+        if (!user) {
+            console.log("Utilisateur non connecté");
+            return;
+        }
         
         // Créez un nouvel objet `comment` avec les données du formulaire
         const comment: CommentType = {
             ...form, // Utilisez les données du formulaire
-            userId,
+            userId: user.id,
             createdAt: new Date()
         };
 
-        await create(comment); // Appelez la fonction `create` avec le nouvel objet
+        await createComment(comment); // Appelez la fonction `create` avec le nouvel objet
     };
 
 
