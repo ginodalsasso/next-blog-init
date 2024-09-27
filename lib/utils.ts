@@ -5,7 +5,7 @@ export function formatDate(date: Date): string {
 }
 
 // Vérifie le rôle de l'utilisateur
-function checkUserRole(session: any): string | null {
+function checkUserRole(session) {
     if (
         !session ||
         !session.user ||

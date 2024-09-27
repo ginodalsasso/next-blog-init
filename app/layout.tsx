@@ -38,13 +38,7 @@ export default function RootLayout({
                     className={`${geistSans.variable} ${geistMono.variable} antialiased`}
                 >
                     <main className="bg-slate-800 min-h-screen p-6 text-white">
-                        <Navbar /> {/* Include the Navbar component here */}
-                        {/* <SignedOut>
-                            <SignInButton />
-                        </SignedOut>
-                        <SignedIn>
-                            <UserButton />
-                        </SignedIn> */}
+                        <Navbar />
                         {children}
                     </main>
                 </body>
