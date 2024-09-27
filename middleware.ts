@@ -2,6 +2,7 @@ import { clerkMiddleware } from "@clerk/nextjs/server";
 
 export default clerkMiddleware();
 
+// Redirige directement vers la page de connexion ou d'inscription
 // import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 // const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)"]);
