@@ -27,3 +27,16 @@ export async function DELETE (req: NextRequest) {
         console.error("[DELETE_COMMENT_ERROR]", error);
     }
 }
+
+export async function PUT (req: NextRequest) {
+    try {
+        const { id, text } = await req.json(); // Récupère l'id et le texte du commentaire
+        const updatedComment = await db.comment.update({ // Met à jour le commentaire
+            where: { id },
+            data: { text },
+        });
+        return NextResponse.json(updatedComment);
+    } catch (error) {
+        console.error("[UPDATE_COMMENT_ERROR]", error);
+    }
+}

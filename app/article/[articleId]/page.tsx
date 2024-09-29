@@ -4,6 +4,7 @@ import Tag from "@/components/Tag";
 import Comment from "@/components/Comment"; // Assurez-vous d'importer le composant Comment
 import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs"; // Importez le hook `useUser`
+import { Modal } from "@/components/Modal";
 
 const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     const [article, setArticle] = useState<ArticleWithTagsAndComments | null>(
@@ -15,6 +16,9 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
         userId: "",
         articleId: params.articleId,
     });
+
+    const [selectedComment, setSelectedComment] = useState<CommentType | null>(null); // État pour stocker le commentaire sélectionné
+    const [isModalOpen, setIsModalOpen] = useState(false); // État pour ouvrir et fermer le modal
 
     const { user } = useUser(); // useUser pour récupérer l'utilisateur connecté
 
@@ -121,6 +125,50 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
         await createComment(newComment); // fonction `createComment` avec le nouvel objet
     };
 
+    // fonctions `handleEditComment` pour éditer le commentaire _____________________________PUT
+    const handleEditComment = (comment: CommentType) => {
+        setSelectedComment(comment);
+        setIsModalOpen(true);
+    };
+
+    const handleEditSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if(!selectedComment) return; // Vérifie si un commentaire est sélectionné
+
+        try {
+            const response = await fetch(`/api/article/crud`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify ({
+                    id: selectedComment.id,
+                    text: selectedComment.text,
+                }),
+            });
+
+            if(!response.ok) {
+                throw new Error("Erreur lors de la mise à jour du commentaire");
+            }
+
+            const updatedComment = await response.json(); // Récupère le commentaire mis à jour
+            setIsModalOpen(false); // Ferme le modal
+
+            setArticle((prevArticle) => {
+                if(!prevArticle) return prevArticle; // Vérifie si l'article existe
+                return {
+                    ...prevArticle, // Garde les données de l'article
+                    comments: prevArticle.comments.map((comment) => { // Pour chaque commentaire
+                        if(comment.id === updatedComment.id) { // Si l'id du commentaire correspond à l'id du commentaire mis à jour
+                            return updatedComment; // Retourne le commentaire mis à jour
+                        }
+                        return comment; // Sinon, retourne le commentaire tel quel
+                    }),
+                }
+            })
+        } catch (error) {
+            console.error("[UPDATE_COMMENT]", error);
+        }
+    };
+
     return (
         <div className="border rounded-lg p-6 xl:w-[70%] mx-auto">
             <h1 className="text-4xl font-semibold text-emerald-500 text-center mb-2">
@@ -166,12 +214,33 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
                                 userId={commentArticle.userId}
                                 createdAt={commentArticle.createdAt}
                                 text={commentArticle.text}
-                                onDelete={deleteComment} // Passez la fonction de suppression
+                                onDelete={deleteComment} // Passe la fonction de suppression
+                                onEdit={() => handleEditComment(commentArticle)} // Passe la fonction d'édition
                             />
                         )
                     )
                 )}
             </div>
+            {isModalOpen && (
+                <Modal onClose={() => setIsModalOpen(false)}>
+                    <h1>Éditer le commentaire</h1>
+                    {selectedComment && (
+                        <form onSubmit={handleEditSubmit}>
+                            <textarea
+                                value={selectedComment.text}
+                                onChange={(e) =>
+                                    setSelectedComment({ ...selectedComment, text: e.target.value })
+                                }
+                                className="border border-gray-300 p-2 rounded mb-4 text-black w-full"
+                            />
+                            <button type="submit" className="bg-emerald-500 text-white p-2 rounded">
+                                Enregistrer
+                            </button>
+                            
+                        </form>
+                    )}
+                </Modal>
+            )}
         </div>
     );
 };
