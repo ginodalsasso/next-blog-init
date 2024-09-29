@@ -34,7 +34,7 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     // Créez une fonction `createComment` pour envoyer les données du formulaire
     async function createComment(data: CommentType) {
         try {
-            await fetch('/api/article/createComment', {
+            await fetch('/api/article/crud', {
                 body: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json'
@@ -45,8 +45,8 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
 
             // Mettre à jour les commentaires après la soumission
             setArticle(prevArticle => {
-                if (!prevArticle) return prevArticle;
-
+                if (!prevArticle) return prevArticle; // Vérifie si l'article existe
+                // Retourne l'article avec le nouveau commentaire
                 return {
                     ...prevArticle, // Garde les données de l'article
                     comments: [...prevArticle.comments, data] // Ajoute le commentaire à la liste
