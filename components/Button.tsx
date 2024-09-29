@@ -5,16 +5,26 @@ interface ButtonProps {
     label: string;
     href: string;
     style: string;
+    onClick?: () => void; // fonction otpionnelle
 }
 
-const Button: React.FC<ButtonProps> = ({ label, href, style }) => {
+const Button: React.FC<ButtonProps> = ({ label, href, style, onClick }) => {
+
+    if(href && !onClick) {
+        return (
+            <Link
+                className={style}
+                href={href}
+            >
+                {label}
+            </Link>
+        );
+    }
+
     return (
-        <Link
-            className={style}
-            href={href}
-        >
+        <button className={style} onClick={onClick}>
             {label}
-        </Link>
+        </button>
     );
 };
 

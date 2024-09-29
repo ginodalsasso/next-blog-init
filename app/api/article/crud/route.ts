@@ -17,3 +17,13 @@ export async function POST(req: NextRequest) {
         console.error("[CREATE_COMMENT_ERROR]", error);
     }
 }
+
+export async function DELETE (req: NextRequest) {
+    try {
+        const { id } = await req.json(); // Récupère l'id du commentaire à supprimer
+        await db.comment.delete({ where: { id } }); // Supprime le commentaire
+        return NextResponse.json({ message: "Commentaire supprimé" });
+    } catch (error) {
+        console.error("[DELETE_COMMENT_ERROR]", error);
+    }
+}
