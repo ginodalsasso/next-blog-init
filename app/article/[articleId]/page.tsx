@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Tag from "@/components/Tag";
 import CommentDetail from "../comments/[commentId]/comment"; // Importation du composant CommentDetail
 import Button from "@/components/Button";
+import DeleteArticle from "./delete/page";
 
 
 const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
@@ -90,7 +91,9 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
         <div className="border rounded-lg p-6 xl:w-[70%] mx-auto">
             <div className="flex justify-end gap-2">
                 <Button href={`/article/${params.articleId}/edit`} style="fa-solid fa-edit" />
-                <Button href="/" style="fa-solid fa-trash"/>
+                {/* <Button href="/" style="fa-solid fa-trash"/> */}
+                {article && <DeleteArticle article={article} />}
+
             </div>
             <h1 className="text-4xl font-semibold text-emerald-500 text-center mb-2">{article?.title}</h1>
             <div className="flex justify-center mb-6">

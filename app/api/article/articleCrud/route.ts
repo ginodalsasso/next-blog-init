@@ -18,15 +18,15 @@ export async function POST(req: NextRequest) {
     }
 }
 
-// export async function DELETE (req: NextRequest) {
-//     try {
-//         const { id } = await req.json(); // Récupère l'id du commentaire à supprimer
-//         await db.comment.delete({ where: { id } }); // Supprime le commentaire
-//         return NextResponse.json({ message: "Commentaire supprimé" });
-//     } catch (error) {
-//         console.error("[DELETE_COMMENT_ERROR]", error);
-//     }
-// }
+export async function DELETE (req: NextRequest) {
+    try {
+        const { id } = await req.json(); // Récupère l'id de l'article à supprimer
+        await db.article.delete({ where: { id } }); // Supprime l'article
+        return NextResponse.json({ message: "Article supprimé" });
+    } catch (error) {
+        console.error("[DELETE_ARTICLE_ERROR]", error);
+    }
+}
 
 export async function PUT (req: NextRequest) {
     try {
