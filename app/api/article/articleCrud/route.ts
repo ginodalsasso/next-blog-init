@@ -28,15 +28,19 @@ export async function POST(req: NextRequest) {
 //     }
 // }
 
-// export async function PUT (req: NextRequest) {
-//     try {
-//         const { id, text } = await req.json(); // Récupère l'id et le texte du commentaire
-//         const updatedComment = await db.comment.update({ // Met à jour le commentaire
-//             where: { id },
-//             data: { text },
-//         });
-//         return NextResponse.json(updatedComment);
-//     } catch (error) {
-//         console.error("[UPDATE_COMMENT_ERROR]", error);
-//     }
-// }
+export async function PUT (req: NextRequest) {
+    try {
+        const { id, title, slug, text } = await req.json(); // Récupère les données du corps de la requête
+        const updatedArticle = await db.article.update({ // Met à jour l'article
+            where: { id },
+            data: { 
+                title, 
+                slug, 
+                text 
+            },
+        });
+        return NextResponse.json(updatedArticle);
+    } catch (error) {
+        console.error("[UPDATE_ARTICLE_ERROR]", error);
+    }
+}

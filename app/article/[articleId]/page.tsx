@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import Tag from "@/components/Tag";
 import CommentDetail from "../comments/[commentId]/comment"; // Importation du composant CommentDetail
+import Button from "@/components/Button";
+
 
 const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     const [article, setArticle] = useState<ArticleWithTagsAndComments | null>(null); // État pour stocker l'article et les commentaires associés.
@@ -83,11 +85,12 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
         }
     }
 
+
     return (
         <div className="border rounded-lg p-6 xl:w-[70%] mx-auto">
             <div className="flex justify-end gap-2">
-                <i className="fa-solid fa-edit"></i>
-                <i className="fa-solid fa-trash"></i> 
+                <Button href={`/article/${params.articleId}/edit`} style="fa-solid fa-edit" />
+                <Button href="/" style="fa-solid fa-trash"/>
             </div>
             <h1 className="text-4xl font-semibold text-emerald-500 text-center mb-2">{article?.title}</h1>
             <div className="flex justify-center mb-6">
