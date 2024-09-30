@@ -5,7 +5,7 @@ interface ButtonProps {
     label: string;
     href?: string;
     style: string;
-    type: "button" | "submit" | "reset"; // Type de bouton
+    type?: "button" | "submit" | "reset"; // Type de bouton
     onClick?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void; // fonction otpionnelle
 }
 

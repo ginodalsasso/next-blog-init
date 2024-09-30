@@ -20,8 +20,6 @@ const Navbar = () => {
 
     const links = [
         { title: "Profile", url: "/profile" },
-        { title: "Dashboard", url: "/user" },
-        { title: "Admin Dashboard", url: "/admin", role: "admin" },
         { title: "Blog", url: "/article" },
     ];
 
@@ -32,13 +30,13 @@ const Navbar = () => {
                     <SignedIn>
                         {links.map((link) =>
                             // (link.role === "admin" && userRole === "admin") ||
-                            !link.role ? (
+                            // !link.role ? (
                                 <Link key={link.title} href={link.url}>
                                     <div className="mr-5 cursor-pointer hover:text-gray-900">
                                         {link.title}
                                     </div>
                                 </Link>
-                            ) : null
+                            // ) : null
                         )}
                     </SignedIn>
                 </nav>
