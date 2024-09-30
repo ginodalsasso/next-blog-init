@@ -19,7 +19,7 @@ const Navbar = () => {
     // const userRole = checkUserRole(session);
 
     const links = [
-        { title: "Profile", url: "/profile" },
+        { title: "Profile", url: "/user-profile" },
         { title: "Blog", url: "/article" },
     ];
 

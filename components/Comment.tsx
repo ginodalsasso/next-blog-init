@@ -15,7 +15,6 @@ type CommentProps = {
 const Comment: React.FC<CommentProps> = ({ id, userId, createdAt, text, onDelete, onEdit }) => {
     // useUser pour récupérer les informations de l'utilisateur
     const { user } = useUser();
-    console.log(user);
 
     //fonction formatDate pour formater la date du commentaire
     const formattedDate = createdAt ? formatDate(createdAt) : "Date non disponible";
@@ -34,10 +33,10 @@ const Comment: React.FC<CommentProps> = ({ id, userId, createdAt, text, onDelete
         <div className="bg-white border border-gray-300 p-4 rounded-lg my-4 w-[90%]">
             <div className="flex flex-col  mb-2">
                 <span className={`font-semibold mr-2 
-                    ${user?.id === userId ? "text-emerald-500" : ""}`} // Vérifie si l'utilisateur est l'auteur du commentaire
+                    ${user?.id === userId ? "text-emerald-500" : "text-slate-900"}`} // Vérifie si l'utilisateur est l'auteur du commentaire pour changer le style 
                 >
                     {/* {userId} */}
-                    {user?.firstName}
+                    {user?.username}
                 </span>
                 <span className="text-gray-500 text-sm mb-4">{formattedDate}</span>
                 <hr />

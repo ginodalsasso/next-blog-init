@@ -24,7 +24,7 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     // Fonction `createComment` pour envoyer les données du formulaire
     async function createComment(data: CommentType) {
         try {
-            await fetch("/api/article/crud", {
+            await fetch("/api/article/commentCrud", {
                 body: JSON.stringify(data),
                 headers: { "Content-Type": "application/json" },
                 method: "POST",
@@ -44,7 +44,7 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     // Fonction `deleteComment` pour supprimer le commentaire
     async function deleteComment(commentId: string) {
         try {
-            await fetch(`/api/article/crud`, {
+            await fetch(`/api/article/commentCrud`, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ id: commentId }), // Envoie l'ID du commentaire à supprimer
@@ -64,7 +64,7 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     // Fonction `editComment` pour modifier le commentaire
     async function editComment(updatedComment: CommentType) {
         try {
-            await fetch(`/api/article/crud`, {
+            await fetch(`/api/article/commentCrud`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updatedComment),
