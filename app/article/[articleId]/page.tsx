@@ -85,6 +85,10 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
 
     return (
         <div className="border rounded-lg p-6 xl:w-[70%] mx-auto">
+            <div className="flex justify-end gap-2">
+                <i className="fa-solid fa-edit"></i>
+                <i className="fa-solid fa-trash"></i> 
+            </div>
             <h1 className="text-4xl font-semibold text-emerald-500 text-center mb-2">{article?.title}</h1>
             <div className="flex justify-center mb-6">
                 {article?.tags.map((tagArticle: TagArticleType) => (

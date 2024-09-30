@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Script from "next/script";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -34,6 +35,13 @@ export default function RootLayout({
     return (
         <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
             <html lang="en">
+                <head>
+                        {/* Ajout du script dans la balise <head> */}
+                        <Script
+                            src="https://kit.fontawesome.com/f3340c3342.js" 
+                            strategy="beforeInteractive"
+                        />
+                </head>
                 <body
                     className={`${geistSans.variable} ${geistMono.variable} antialiased`}
                 >

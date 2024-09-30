@@ -31,7 +31,6 @@ const ArticleCard:React.FC<ArticleCardProps> = ({ article }) => {
                 {/*  Afficher les 4 premières lignes de l'article */}
                 {article.text}
             </p>
-            
             {/* <Button label="Lire la suite..." /> */}
         </div>
     );
