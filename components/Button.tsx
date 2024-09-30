@@ -3,13 +3,14 @@ import Link from "next/link";
 
 interface ButtonProps {
     label: string;
-    href: string;
+    href?: string;
     style: string;
-    onClick?: () => void; // fonction otpionnelle
+    type: "button" | "submit" | "reset"; // Type de bouton
+    onClick?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void; // fonction otpionnelle
 }
 
-const Button: React.FC<ButtonProps> = ({ label, href, style, onClick }) => {
-
+const Button: React.FC<ButtonProps> = ({ label, href, type, style, onClick }) => {
+    // Vérifie si le bouton est un lien et si onClick n'est pas défini
     if(href && !onClick) {
         return (
             <Link
@@ -21,8 +22,9 @@ const Button: React.FC<ButtonProps> = ({ label, href, style, onClick }) => {
         );
     }
 
+    // sinon on retourne un bouton
     return (
-        <button className={style} onClick={onClick}>
+        <button className={style} type={type} onClick={onClick}>
             {label}
         </button>
     );

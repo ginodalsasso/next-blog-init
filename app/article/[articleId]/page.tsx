@@ -5,6 +5,7 @@ import Comment from "@/components/Comment"; // Assurez-vous d'importer le compos
 import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs"; // Importez le hook `useUser`
 import { Modal } from "@/components/Modal";
+import Button from "@/components/Button";
 
 const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     const [article, setArticle] = useState<ArticleWithTagsAndComments | null>(
@@ -131,6 +132,11 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
         setIsModalOpen(true);
     };
 
+    const handleClose = () => {
+        setSelectedComment(null); // Réinitialiser le commentaire sélectionné
+        setIsModalOpen(false); // Fermer le modal
+    };
+
     const handleEditSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if(!selectedComment) return; // Vérifie si un commentaire est sélectionné
@@ -188,25 +194,23 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
                 className="flex flex-col w-full mt-10"
             >
                 <textarea
-                    placeholder="Content"
+                    placeholder="Contenu du commentaire"
                     value={form.text}
                     onChange={(e) => setForm({ ...form, text: e.target.value })}
-                    className="border border-gray-300 p-2 rounded mb-4 text-black"
+                    className="border border-gray-300 p-2 rounded mb-4 text-black mx-auto w-[90%]"
                 />
 
-                <button
+                <Button
                     type="submit"
-                    className="bg-emerald-500 text-white p-2 rounded"
-                >
-                    Submit
-                </button>
+                    label="Envoyer"
+                    style="bg-emerald-500 text-white font-bold p-2 rounded mx-auto w-[90%] hover:bg-emerald-400"
+                />
             </form>
 
             {/* Affichage des commentaires */}
-            <div className="flex flex-col items-center mt-10">
+            <div className="flex flex-col items-center mt-10 mx-auto w-[90%]">
                 {article?.comments.map(
                     (commentArticle: CommentType) => (
-                        console.log(commentArticle),
                         (
                             <Comment
                                 key={commentArticle.id}
@@ -222,21 +226,30 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
                 )}
             </div>
             {isModalOpen && (
-                <Modal onClose={() => setIsModalOpen(false)}>
+                <Modal onClose={handleClose}>
                     <h1>Éditer le commentaire</h1>
                     {selectedComment && (
                         <form onSubmit={handleEditSubmit}>
                             <textarea
                                 value={selectedComment.text}
                                 onChange={(e) =>
-                                    setSelectedComment({ ...selectedComment, text: e.target.value })
+                                    setSelectedComment({ ...selectedComment, text: e.target.value }) // Met à jour le texte du commentaire
                                 }
                                 className="border border-gray-300 p-2 rounded mb-4 text-black w-full"
                             />
-                            <button type="submit" className="bg-emerald-500 text-white p-2 rounded">
-                                Enregistrer
-                            </button>
-                            
+                            <div className="flex gap-2 justify-end">
+                                <Button
+                                    type="button"
+                                    label="Fermer"
+                                    style="bg-red-500 text-white px-4 py-2 rounded"
+                                    onClick={handleClose}
+                                />
+                                <Button 
+                                    type="submit" 
+                                    label="Enregistrer" 
+                                    style="bg-emerald-500 text-white p-2 rounded"
+                                />    
+                            </div>
                         </form>
                     )}
                 </Modal>

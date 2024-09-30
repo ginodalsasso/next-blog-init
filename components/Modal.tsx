@@ -16,19 +16,20 @@ export function Modal({ children, onClose }: ModalProps) {
             dialogRef.current.showModal(); // Affiche le modal s'il est référencé
         }
     }, []);
-    const handleClose = (e: React.SyntheticEvent) => {
+    const handleClose = (e: React.SyntheticEvent) => { // Fonction pour fermer le modal
         e.preventDefault();
         onClose?.(); // si onClose est défini, on l'appelle
     };
 
     return createPortal(
         <dialog 
-            style={{width: 'calc(100vw - 2rem)', maxWidth: '600px'}}
+            className="fixed inset-0 lg:w-1/2 bg-white p-10 rounded-lg"
             ref={dialogRef} 
-            onCancel={handleClose} 
             onClose={handleClose}
         >
-            {children}
+            <div>
+                {children}
+            </div>
         </dialog>
         , document.body
     );

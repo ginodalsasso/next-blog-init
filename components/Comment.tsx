@@ -31,33 +31,37 @@ const Comment: React.FC<CommentProps> = ({ id, userId, createdAt, text, onDelete
 
     return (
         <div className="bg-white border border-gray-300 p-4 rounded-lg mb-4 w-full">
-            <div className="flex items-center mb-2">
+            <div className="flex flex-col  mb-2">
                 <span className={`font-semibold mr-2 
                     ${user?.id === userId ? "text-emerald-500" : ""}`} // Vérifie si l'utilisateur est l'auteur du commentaire
                 >
                     {userId}
                 </span>
-                <span className="text-gray-500 text-sm">{formattedDate}</span>
+                <span className="text-gray-500 text-sm mb-4">{formattedDate}</span>
+                <hr />
             </div>
             <p className="text-gray-700">{text}</p>
             {/* // Vérifie si l'utilisateur est l'auteur du commentaire */}
             {user?.id === userId && (
-                <div className="flex space-x-2 mt-4">
+                <div className="flex gap-2 justify-end mt-4">
+                    {/* Bouton "Éditer" */}
+                    <Button 
+                        type="submit"
+                        style="px-4 py-2 rounded-lg bg-blue-500 text-white" 
+                        href="" 
+                        label="Éditer" 
+                        onClick={handleEdit} // Utilise la fonction handleEdit pour déclencher l'édition
+                    />
+
                     {/* Bouton "Supprimer" */}
                     <Button 
+                        type="submit"
                         style="px-4 py-2 rounded-lg bg-red-500 text-white" 
                         href="" 
                         label="Supprimer" 
                         onClick={handleDelete} 
                     />
 
-                    {/* Bouton "Éditer" */}
-                    <Button 
-                        style="px-4 py-2 rounded-lg bg-blue-500 text-white" 
-                        href="" 
-                        label="Éditer" 
-                        onClick={handleEdit} // Utilise la fonction handleEdit pour déclencher l'édition
-                    />
                 </div>
             )}
         </div>
