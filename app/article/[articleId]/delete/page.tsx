@@ -51,7 +51,7 @@ const DeleteArticle = ({ article }: { article: Article }) => {
     return (
         <div>
             {/* Bouton de suppression */}
-            <Button style="fa-solid fa-trash" onClick={handleDeleteArticle} />
+            <Button label="Supprimer" style="border border-slate-300 px-4 py-2 rounded-lg" onClick={handleDeleteArticle} />
 
             {/* Modal pour confirmer la suppression */}
             {isModalOpen && (
