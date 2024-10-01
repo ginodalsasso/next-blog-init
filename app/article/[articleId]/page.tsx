@@ -7,7 +7,7 @@ import CommentDetail from "../comments/[commentId]/comment"; // Importation du c
 const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     const [article, setArticle] = useState<ArticleWithTagsAndComments | null>(null); // État pour stocker l'article et les commentaires associés.
 
-    // Récupérer les données de l'article
+    // Récupération de l'article  _____________________________________READ
     useEffect(() => {
         const fetchArticle = async () => {
             try {
@@ -21,7 +21,7 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
         fetchArticle();
     }, [params.articleId]);
 
-
+    // Création du commentaire _____________________________________CREATE
     async function createComment(data: CommentType) {
         try {
             await fetch("/api/article/commentCrud", {
@@ -42,7 +42,7 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
         }
     }
 
-    // Fonction `deleteComment` pour supprimer le commentaire
+    // Suppression du commentaire _____________________________________DELETE
     async function deleteComment(commentId: string) {
         try {
             await fetch(`/api/article/commentCrud`, {
@@ -62,7 +62,7 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
         }
     }
 
-    // Fonction `editComment` pour modifier le commentaire
+    // Edition du commentaire _____________________________________UPDATE
     async function editComment(updatedComment: CommentType) {
         try {
             await fetch(`/api/article/commentCrud`, {

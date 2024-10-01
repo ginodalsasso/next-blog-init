@@ -35,14 +35,14 @@ const CommentDetail = ({ comments, articleId, onAddComment, onDeleteComment, onE
         userId: "",
         articleId,
     }); // État pour gérer le formulaire d'ajout de commentaire.
-
+    
     const [error, setError] = useState<string | null>(null); // État pour les erreurs du formulaire d'ajout.
     const [editError, setEditError] = useState<string | null>(null); // État pour les erreurs du formulaire d'édition.
     const [selectedComment, setSelectedComment] = useState<CommentType | null>(null); // État pour stocker le commentaire sélectionné pour modification.
     const [isModalOpen, setIsModalOpen] = useState(false); // État pour ouvrir et fermer le modal d'édition.
     const { user } = useUser(); // Récupération de l'utilisateur connecté.
 
-    // Gérer la soumission du formulaire pour ajouter un commentaire
+    // Gérer la soumission du formulaire pour ajouter un commentaire ______________________________GESTION AJOUT
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!user) return;
@@ -64,7 +64,7 @@ const CommentDetail = ({ comments, articleId, onAddComment, onDeleteComment, onE
         }
     };
 
-    // Gérer la soumission du formulaire pour modifier un commentaire
+    // Gérer la soumission du formulaire pour modifier un commentaire _________________________GESTION EDITION
     const handleEditSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedComment) return;
@@ -86,6 +86,7 @@ const CommentDetail = ({ comments, articleId, onAddComment, onDeleteComment, onE
         }
     };
 
+    // Gestion de l'ouvertur du modal d'édition __________________________________MODAL
     // Ouvrir le modal pour éditer le commentaire
     const handleEditComment = (comment: CommentType) => {
         setSelectedComment(comment);
@@ -102,7 +103,7 @@ const CommentDetail = ({ comments, articleId, onAddComment, onDeleteComment, onE
 
     return (
         <div className="flex flex-col items-center mx-auto">
-            {/* Formulaire d'ajout de commentaire */}
+            {/* __________________________________Affichage d'ajout de commentaire */}
             <form onSubmit={handleSubmit} className="flex flex-col w-full my-5">
                 <textarea
                     placeholder="Contenu du commentaire"
@@ -122,7 +123,7 @@ const CommentDetail = ({ comments, articleId, onAddComment, onDeleteComment, onE
                 />
             </form>
 
-            {/* Affichage des commentaires */}
+            {/* __________________________________Affichage des commentaires */}
             {comments.map((comment) => (
                 <Comment
                     key={comment.id}
@@ -135,7 +136,7 @@ const CommentDetail = ({ comments, articleId, onAddComment, onDeleteComment, onE
                 />
             ))}
 
-            {/* Modal pour éditer le commentaire */}
+            {/* __________________________________Modal pour éditer le commentaire */}
             {isModalOpen && (
                 <Modal onClose={handleClose}>
                     <h1>Éditer le commentaire</h1>
