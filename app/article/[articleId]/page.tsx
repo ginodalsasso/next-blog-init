@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import Tag from "@/components/Tag";
 import CommentDetail from "../comments/[commentId]/comment"; // Importation du composant CommentDetail
+import { z } from "zod";
+
 
 
 const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
@@ -23,13 +25,24 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     }, [params.articleId]);
 
     // Fonction `createComment` pour envoyer les données du formulaire
+
+    const commentSchema = z.object({
+        text: z.string().min(5).max(500),
+        error: z.string().optional(),
+    });
     async function createComment(data: CommentType) {
+        const validateComment = commentSchema.parse(data);
+        if (!validateComment) {
+            console.error(validateComment.error.message);
+            return;
+        }
         try {
             await fetch("/api/article/commentCrud", {
                 body: JSON.stringify(data),
                 headers: { "Content-Type": "application/json" },
                 method: "POST",
             });
+
             setArticle((prevArticle) => {
                 if (!prevArticle) return prevArticle; // Vérifie si l'article existe
                 return {

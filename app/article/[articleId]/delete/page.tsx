@@ -1,21 +1,19 @@
 "use client";
 
 import { Modal } from "@/components/Modal";
-import { Article } from "@prisma/client";
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // Importer useRouter pour la navigation
 import Button from "@/components/Button"; // Assurez-vous que le composant Button est bien importé
 
 const DeleteArticle = ({ article }: { article: ArticleWithTagsAndComments }) => {
-    const [selectedArticle, setSelectedArticle] = useState<Article | null>(
-        null
-    );
+
+    const [selectedArticle, setSelectedArticle] = useState<ArticleWithTagsAndComments | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const router = useRouter(); // Pour la redirection après suppression
 
     // Ouvre le modal pour confirmer la suppression
     const handleDeleteArticle = () => {
-        setSelectedArticle(article);
+        setSelectedArticle(article); // Met à jour l'article sélectionné
         setIsModalOpen(true);
     };
 

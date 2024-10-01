@@ -51,6 +51,7 @@ const Navbar = () => {
                             style="text-white bg-emerald-500 border-0 py-2 px-4 focus:outline-none hover:bg-emerald-600 rounded text-base mr-4 cursor-pointer" 
                             href="/sign-in" 
                             label="Login"
+                            
                         />
                         <Button 
                             style="text-white bg-emerald-500 border-0 py-2 px-4 focus:outline-none hover:bg-emerald-600 rounded text-base mr-4 cursor-pointer" 
