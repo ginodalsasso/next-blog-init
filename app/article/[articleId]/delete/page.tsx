@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation"; // Importer useRouter pour la navigation
 import Button from "@/components/Button"; // Assurez-vous que le composant Button est bien importé
 
-const DeleteArticle = ({ article }: { article: Article }) => {
+const DeleteArticle = ({ article }: { article: ArticleWithTagsAndComments }) => {
     const [selectedArticle, setSelectedArticle] = useState<Article | null>(
         null
     );

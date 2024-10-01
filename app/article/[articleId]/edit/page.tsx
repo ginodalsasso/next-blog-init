@@ -6,12 +6,14 @@ import React, { useEffect, useState } from 'react'
 
     const UpdateArticlePage  = ({ params }: { params: { articleId: string } }) => {
 
-        const [form, setForm] = useState<Article>({ // Initialisation du formulaire avec les valeurs par défaut
+        const [form, setForm] = useState<ArticleWithTagsAndComments>({ // Initialisation du formulaire avec les valeurs par défaut
             id: "",
             title: "",
             text: "",
             slug: "",
             createdAt: new Date(),
+            tags: [],
+            comments: [],
         });
 
         const [isLoading, setIsLoading] = useState(false); // Gestion de l'état de chargement
