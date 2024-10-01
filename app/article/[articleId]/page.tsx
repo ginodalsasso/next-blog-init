@@ -3,12 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Tag from "@/components/Tag";
 import CommentDetail from "../comments/[commentId]/comment"; // Importation du composant CommentDetail
-import { z } from "zod";
-
-// Définir le schéma pour les commentaires
-const commentSchema = z.object({
-    text: z.string().min(5, "Le texte du commentaire ne peut pas être vide"),
-});
 
 const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     const [article, setArticle] = useState<ArticleWithTagsAndComments | null>(null); // État pour stocker l'article et les commentaires associés.
@@ -28,33 +22,20 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     }, [params.articleId]);
 
 
-    // Fonction `createComment` pour envoyer les données du formulaire
     async function createComment(data: CommentType) {
-        // Valide les données avec zod avant de les envoyer à l'API
-        const validateData = commentSchema.safeParse({ text: data.text });
-        if (!validateData.success) {
-            console.error("Validation error:", validateData.error);
-            return; // Arrêter si la validation échoue
-        }
-
-        const newComment: CommentType = {
-            ...data, 
-            text: validateData.data.text,
-        };
-
         try {
             await fetch("/api/article/commentCrud", {
-                body: JSON.stringify(validateData.data), // Converti les données validées en JSON pour l'envoi
+                body: JSON.stringify(data),
                 headers: { "Content-Type": "application/json" },
                 method: "POST",
             });
-            // Mettre à jour l'état de l'article après l'ajout du commentaire
+
             setArticle((prevArticle) => {
-                if (!prevArticle) return prevArticle; 
+                if (!prevArticle) return prevArticle; // Vérifie si l'article existe
                 return {
-                    ...prevArticle, 
-                    comments: [...prevArticle.comments, newComment], // Ajoute le commentaire validé à la liste
-                } as ArticleWithTagsAndComments; // as pour forcer le type attendu par Typescript
+                    ...prevArticle, // Garde les données de l'article
+                    comments: [...prevArticle.comments, data], // Ajoute le commentaire à la liste
+                };
             });
         } catch (error) {
             console.log("[CREATE_COMMENT]", error);
@@ -82,24 +63,12 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     }
 
     // Fonction `editComment` pour modifier le commentaire
-    async function editComment(data: CommentType) {
-        // Valider les données avec zod avant de les envoyer à l'API
-        const validateUpdtatedData = commentSchema.safeParse({ text: data.text });
-        if (!validateUpdtatedData.success) {
-            console.error("Validation error:", validateUpdtatedData.error);
-            return; // Arrêter si la validation échoue
-        }
-
-        const updatedComment: CommentType = {
-            ...data, 
-            text: validateUpdtatedData.data.text,
-        };
-
+    async function editComment(updatedComment: CommentType) {
         try {
             await fetch(`/api/article/commentCrud`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(validateUpdtatedData.data),
+                body: JSON.stringify(updatedComment),
             });
             setArticle((prevArticle) => {
                 if (!prevArticle) return prevArticle; // Vérifie si l'article existe
