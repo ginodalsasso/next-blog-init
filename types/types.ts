@@ -27,3 +27,9 @@ interface ArticleWithTagsAndComments {
     tags: TagArticleType[];
     comments: CommentType[];
 }
+
+interface ArticleFormErrorType {
+    title?: string;
+    text?: string;
+    slug?: string;
+}

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { z } from "zod";
 
 // Définir le schéma de validation avec Zod
-const articleSchema = z.object({
+const articleConstraints = z.object({
     title: z.string().min(5, {
         message: "Le titre doit comporter au moins 5 caractères.",
     }),
@@ -19,13 +19,6 @@ const articleSchema = z.object({
     }),
 });
 
-// Interface pour gérer les erreurs de validation sous forme d'objet
-interface FormErrorType {
-    title?: string;
-    text?: string;
-    slug?: string;
-}
-
 const UpdateArticlePage = ({ params }: { params: { articleId: string } }) => {
     const [form, setForm] = useState<Article>({
         // Initialisation du formulaire avec les valeurs par défaut
@@ -36,7 +29,7 @@ const UpdateArticlePage = ({ params }: { params: { articleId: string } }) => {
         createdAt: new Date(),
     });
 
-    const [error, setError] = useState<FormErrorType>({});
+    const [error, setError] = useState<ArticleFormErrorType>({});
     const [isLoading, setIsLoading] = useState(false); // Gestion de l'état de chargement
     const router = useRouter(); // Pour la redirection de l'utilisateur
 
@@ -66,7 +59,7 @@ const UpdateArticlePage = ({ params }: { params: { articleId: string } }) => {
         setError({}); // Réinitialise les erreurs
 
         // Valide le formulaire avant de soumettre
-        const validationResult = articleSchema.safeParse(form);
+        const validationResult = articleConstraints.safeParse(form);
         if (!validationResult.success) {
             // Collecte les erreurs et les afficher
             const formattedErrors = validationResult.error.format();

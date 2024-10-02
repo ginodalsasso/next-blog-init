@@ -7,7 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import { z } from "zod";
 
 // Définir le schéma de validation avec Zod
-const articleSchema = z.object({
+const articleConstraints = z.object({
     title: z
         .string()
         .min(5, { 
@@ -25,13 +25,6 @@ const articleSchema = z.object({
         }),
 });
 
-// Interface pour gérer les erreurs de validation sous forme d'objet
-interface FormErrorType {
-    title?: string;
-    text?: string;
-    slug?: string;
-}
-
 const CreateArticlePage = () => {
     const [form, setForm] = useState<Article>({
         id: "",
@@ -41,7 +34,7 @@ const CreateArticlePage = () => {
         createdAt: new Date(),
     });
 
-    const [error, setError] = useState<FormErrorType>({});
+    const [error, setError] = useState<ArticleFormErrorType>({});
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const { user } = useUser();
@@ -55,7 +48,7 @@ const CreateArticlePage = () => {
         setError({}); // Réinitialise les erreurs
 
         // Valide le formulaire avant de soumettre
-        const validationResult = articleSchema.safeParse(form);
+        const validationResult = articleConstraints.safeParse(form);
         if (!validationResult.success) {
             // Collecte les erreurs et les afficher
             const formattedErrors = validationResult.error.format();
@@ -100,7 +93,7 @@ const CreateArticlePage = () => {
     };
 
     return (
-        <form className="flex flex-col w-full my-5" onSubmit={handleSubmit}>
+        <form className="flex flex-col w-full my-5 gap-5" onSubmit={handleSubmit}>
             <h1 className="text-2xl text-center mb-5">
                 Créer un nouvel article
             </h1>
@@ -114,11 +107,11 @@ const CreateArticlePage = () => {
                     setForm({ ...form, title: e.target.value });
                     setError({ ...error, title: undefined }); // Réinitialise l'erreur spécifique au champ
                 }}
-                className="border border-gray-300 p-2 rounded mb-1 text-black mx-auto w-[90%]"
+                className="border border-gray-300 p-2 rounded text-black mx-auto w-[90%]"
                 required
             />
             {error.title && (
-                <p className="text-red-500 text-sm mb-2 mx-auto w-[90%]">
+                <p className="text-red-500 text-sm mb-4 mx-auto w-[90%]">
                     {error.title}
                 </p>
             )}
@@ -132,11 +125,11 @@ const CreateArticlePage = () => {
                     setForm({ ...form, slug: e.target.value });
                     setError({ ...error, slug: undefined });
                 }}
-                className="border border-gray-300 p-2 rounded mb-1 text-black mx-auto w-[90%]"
+                className="border border-gray-300 p-2 rounded text-black mx-auto w-[90%]"
                 required
             />
             {error.slug && (
-                <p className="text-red-500 text-sm mb-2 mx-auto w-[90%]">
+                <p className="text-red-500 text-sm mb-4 mx-auto w-[90%]">
                     {error.slug}
                 </p>
             )}
@@ -149,11 +142,11 @@ const CreateArticlePage = () => {
                     setForm({ ...form, text: e.target.value });
                     setError({ ...error, text: undefined });
                 }}
-                className="border border-gray-300 p-2 rounded mb-1 text-black mx-auto w-[90%]"
+                className="border border-gray-300 p-2 rounded text-black mx-auto w-[90%]"
                 required
             />
             {error.text && (
-                <p className="text-red-500 text-sm mb-2 mx-auto w-[90%]">
+                <p className="text-red-500 text-sm mb-4 mx-auto w-[90%]">
                     {error.text}
                 </p>
             )}
