@@ -37,7 +37,7 @@ const DeleteArticle = ({ article }: { article: ArticleWithTagsAndComments }) => 
             });
 
             setIsModalOpen(false);
-            router.push("/article"); // Redirige vers la page d'accueil après suppression
+            router.push("/article"); // Redirige vers la page d'accueil après suppression:
         } catch (error) {
             console.error(
                 "Erreur lors de la suppression de l'article :",

@@ -19,8 +19,9 @@ const Navbar = () => {
     // const userRole = checkUserRole(session);
 
     const links = [
-        { title: "Profile", url: "/user-profile" },
+        { title: "Profil", url: "/user-profile" },
         { title: "Blog", url: "/article" },
+        { title: "Ajouter un article", url: "/article/create" },
     ];
 
     return (

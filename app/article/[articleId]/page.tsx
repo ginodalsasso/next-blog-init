@@ -70,12 +70,12 @@ const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updatedComment),
             });
-            setArticle((prevArticle) => {
+            setArticle((prevArticle) => { 
                 if (!prevArticle) return prevArticle; // Vérifie si l'article existe
                 return {
                     ...prevArticle, // Garde les données de l'article
                     comments: prevArticle.comments.map((comment) =>
-                        comment.id === updatedComment.id ? updatedComment : comment // Met à jour le commentaire correspondant
+                        comment.id === updatedComment.id ? updatedComment : comment // Si l'ID correspond, remplace le commentaire
                     ),
                 };
             });

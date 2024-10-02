@@ -9,7 +9,14 @@ import { z } from "zod";
 
 // schéma de validation pour le commentaire
 const commentSchema = z.object({
-    text: z.string().min(5, { message: "Le commentaire doit comporter au moins 5 caractères." }),
+    text: z
+    .string()
+    .min(5, { 
+        message: "Le commentaire doit comporter au moins 5 caractères." 
+    })
+    .max(500, { 
+        message: "Le commentaire doit comporter au maximum 500 caractères." 
+    })
 });
 
 type CommentType = {
@@ -39,6 +46,7 @@ const CommentDetail = ({ comments, articleId, onAddComment, onDeleteComment, onE
     const [error, setError] = useState<string | null>(null); // État pour les erreurs du formulaire d'ajout.
     const [editError, setEditError] = useState<string | null>(null); // État pour les erreurs du formulaire d'édition.
     const [selectedComment, setSelectedComment] = useState<CommentType | null>(null); // État pour stocker le commentaire sélectionné pour modification.
+    const [isLoading, setIsLoading] = useState(false); // Gestion de l'état de chargement
     const [isModalOpen, setIsModalOpen] = useState(false); // État pour ouvrir et fermer le modal d'édition.
     const { user } = useUser(); // Récupération de l'utilisateur connecté.
 
@@ -46,10 +54,11 @@ const CommentDetail = ({ comments, articleId, onAddComment, onDeleteComment, onE
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!user) return;
+        setIsLoading(true); // Met à jour l'état de chargement
 
         try {
             // Valide le formulaire en utilisant commentSchema.parse()
-            const validatedData = commentSchema.parse({ text: form.text });
+            const validatedData = commentSchema.parse({ text: form.text }); // parse() valide les données et renvoie un objet typé
             const newComment = { ...form, ...validatedData, userId: user.id, createdAt: new Date() };
 
             onAddComment(newComment); // Ajoute le commentaire
@@ -61,6 +70,8 @@ const CommentDetail = ({ comments, articleId, onAddComment, onDeleteComment, onE
             } else {
                 setError("Une erreur est survenue lors de l'ajout du commentaire.");
             }
+        } finally {
+            setIsLoading(false); // Met à jour l'état de chargement
         }
     };
 
@@ -118,8 +129,9 @@ const CommentDetail = ({ comments, articleId, onAddComment, onDeleteComment, onE
 
                 <Button
                     type="submit"
-                    label="Envoyer"
+                    label={isLoading ? 'Chargement...' : 'Envoyer'}
                     style="bg-emerald-500 text-white font-bold p-2 rounded mx-auto w-[90%] hover:bg-emerald-400"
+                    disabled={isLoading}
                 />
             </form>
 
@@ -157,6 +169,7 @@ const CommentDetail = ({ comments, articleId, onAddComment, onDeleteComment, onE
                                     label="Fermer"
                                     style="border border-slate-300 text-black px-4 py-2 rounded"
                                     onClick={handleClose}
+                                    disabled={isLoading}
                                 />
                                 <Button type="submit" label="Enregistrer" style="bg-emerald-500 text-white p-2 rounded" />
                             </div>

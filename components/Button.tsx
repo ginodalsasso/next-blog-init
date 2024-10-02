@@ -6,6 +6,7 @@ interface ButtonProps {
     href?: string;
     style: string;
     type?: "button" | "submit" | "reset"; // Type de bouton
+    disabled?: boolean; // Désactive le bouton
     onClick?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void; // fonction otpionnelle
 }
 
