@@ -33,3 +33,8 @@ interface ArticleFormErrorType {
     text?: string;
     slug?: string;
 }
+
+interface ImageType {
+    id: string;
+    url: string;
+}
