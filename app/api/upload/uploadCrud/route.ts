@@ -3,6 +3,9 @@ import { db } from '@/lib/db';
 import { mkdir, stat, writeFile } from 'fs/promises';
 import { join } from 'path';
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB taille max
+const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png']; //fichiers autorisés
+
 export async function POST(req: NextRequest) {
     try {
         const formData = await req.formData(); // Récupération des données
@@ -12,9 +15,8 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'File not provided' }, { status: 400 });
         }
 
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
         const relativeUploadDir = 'public/upload/img';
-        const uploadDir = join(process.cwd(), relativeUploadDir); // join() pour créer un chemin absolu a partir du chemin relatif
+        const uploadDir = join(process.cwd(), relativeUploadDir); // join() pour créer un chemin absolu a partir du chemin relatif, évite aussi la faille de chemin
 
         try { // Creer le dossier s'il n'existe pas
             await stat(uploadDir); // Vérifie si le dossier existe
@@ -25,6 +27,10 @@ export async function POST(req: NextRequest) {
         const uploadFile = async (file: File) => {
             if (!allowedTypes.includes(file.type)) {
                 throw new Error(`File type ${file.type} not supported`);
+            }
+
+            if (file.size > MAX_FILE_SIZE) {
+                throw new Error(`File size exceeds the limit of ${MAX_FILE_SIZE} bytes`);
             }
 
             const buffer = Buffer.from(await file.arrayBuffer()); // Convertir le fichier en tampon
