@@ -5,44 +5,46 @@ import { join } from 'path';
 
 export async function POST(req: NextRequest) {
     try {
-        // Parse the form data
-        const formData = await req.formData();
+        const formData = await req.formData(); // Récupération des données
+        const files = formData.getAll('file') as File[]; // Récupération des fichier dans un tableau
 
-        const image = formData.get('file') as File;
-        if (!image) {
+        if (!files || files.length === 0) {
             return NextResponse.json({ error: 'File not provided' }, { status: 400 });
         }
 
-        const buffer = Buffer.from(await image.arrayBuffer()); // Convertir le fichier en tampon
-        const relativeUploadDir = 'public/upload/img'; // Dossier de téléchargement
-
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        const relativeUploadDir = 'public/upload/img';
         const uploadDir = join(process.cwd(), relativeUploadDir); // join() pour créer un chemin absolu a partir du chemin relatif
 
-        // Creer le dossier s'il n'existe pas
-        try {
+        try { // Creer le dossier s'il n'existe pas
             await stat(uploadDir); // Vérifie si le dossier existe
         } catch {
-            await mkdir(uploadDir, { recursive: true }); // Crée le dossier
+            await mkdir(uploadDir, { recursive: true });// Crée le dossier
         }
 
-        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`; // Générer un nom de fichier unique
-        const filename = `${uniqueSuffix}.${image.name.split('.').pop()}`; // Créer un nom de fichier avec l'extension
-        const filePath = join(uploadDir, filename); // Chemin du fichier
+        const uploadFile = async (file: File) => {
+            if (!allowedTypes.includes(file.type)) {
+                throw new Error(`File type ${file.type} not supported`);
+            }
 
-        await writeFile(filePath, buffer); // Ecrire le fichier dans le dossier
+            const buffer = Buffer.from(await file.arrayBuffer()); // Convertir le fichier en tampon
+            const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`; // Générer un nom de fichier unique
+            const filename = `${uniqueSuffix}.${file.name.split('.').pop()}`;
+            const filePath = join(uploadDir, filename);
 
-        const fileUrl = `/${relativeUploadDir}/${filename}`;
+            await writeFile(filePath, buffer);// Ecrire le fichier dans le dossier
+            return `/${relativeUploadDir}/${filename}`; 
+        };
 
-        // Save to database
-        const result = await db.image.create({
-            data: {
-                url: fileUrl,
-            },
-        });
+        const fileUrls = await Promise.all(files.map(uploadFile));
 
-        return NextResponse.json(result, { status: 201 });
+        const results = await Promise.all(
+            fileUrls.map(url => db.image.create({ data: { url } })) // pour chaque fichier, nous le créons
+        );
+
+        return NextResponse.json(results, { status: 201 });
     } catch (error) {
-        console.error('[CREATE_IMAGE_ERROR]', error);
-        return NextResponse.json({ error: 'Failed to upload image' }, { status: 500 });
+        console.error('[UPLOAD_IMAGES_ERROR]', error);
+        return NextResponse.json({ error: 'Failed to upload images' }, { status: 500 });
     }
 }

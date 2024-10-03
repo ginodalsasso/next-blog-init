@@ -37,4 +37,5 @@ interface ArticleFormErrorType {
 interface ImageType {
     id: string;
     url: string;
+    createdAt: Date;
 }

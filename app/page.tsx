@@ -1,6 +1,7 @@
 "use client"
 
 import FileUpload from "@/components/FileUpload";
+import MultipleFileUpload from "@/components/MultipleFileUpload";
 
 
 export default function Home() {
@@ -9,6 +10,8 @@ export default function Home() {
             <h1>Welcome to Our Blog</h1>
             <p>Discover amazing things with us!</p>
             <FileUpload />
+            
+            <MultipleFileUpload/>
 
         </div>
     );
