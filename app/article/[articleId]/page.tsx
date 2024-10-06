@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Tag from "@/components/Tag";
-import CommentDetail from "../comments/[commentId]/comment"; // Importation du composant CommentDetail
+import CommentDetail from "../create/comments/[commentId]/comment"; // Importation du composant CommentDetail
 
 const ArticleDetailPage = ({ params }: { params: { articleId: string } }) => {
     const [article, setArticle] = useState<ArticleWithTagsAndComments | null>(null); // État pour stocker l'article et les commentaires associés.
